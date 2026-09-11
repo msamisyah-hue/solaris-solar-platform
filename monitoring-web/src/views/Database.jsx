@@ -131,9 +131,18 @@ class Dashboard extends Component {
       // 여기에 state 업데이트하는 부분
 
     })
-    .catch( response => { console.log(response); }); // ERROR
-    // let weatherData = this.fetchTempFromAPI()
-    // console.log(weatherData)
+    .catch( error => {
+      console.log('OpenWeatherMap API unavailable or unauthorized. Loading local demo weather data:', error.message);
+      this.setState({
+        lon: -86.91,
+        lat: 40.42,
+        time: "00:00:00",
+        temperature: "72.40",
+        description: "Clear Sky",
+        weather: "01",
+        humidity: 42
+      });
+    });
   }
 
 
