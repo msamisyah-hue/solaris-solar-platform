@@ -10,44 +10,43 @@ import Reports from "views/Reports.jsx";
 import Settings from "views/Settings.jsx";
 
 const dashboardRoutes = [
-  // MAIN
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Tableau de bord",
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin",
     section: null
   },
-  // ENERGY
+  // ÉNERGIE
   {
     path: "/energy",
-    name: "Energy Monitoring",
+    name: "Surveillance Énergie",
     icon: "pe-7s-lightning",
     component: EnergyMonitoring,
     layout: "/admin",
-    section: "ENERGY"
+    section: "ÉNERGIE"
   },
   {
     path: "/analytics",
-    name: "Analytics",
+    name: "Analytiques",
     icon: "pe-7s-signal",
     component: Analytics,
     layout: "/admin",
     section: null
   },
-  // ASSETS
+  // ACTIFS
   {
     path: "/installations",
     name: "Installations",
     icon: "pe-7s-map-marker",
     component: Installations,
     layout: "/admin",
-    section: "ASSETS"
+    section: "ACTIFS"
   },
   {
     path: "/installations/:id",
-    name: "Installation Detail",
+    name: "Détail Installation",
     icon: "pe-7s-map-marker",
     component: InstallationDetail,
     layout: "/admin",
@@ -56,20 +55,20 @@ const dashboardRoutes = [
   },
   {
     path: "/panels",
-    name: "Solar Panels",
+    name: "Panneaux Solaires",
     icon: "pe-7s-sun",
     component: SolarPanels,
     layout: "/admin",
     section: null
   },
-  // OPERATIONS
+  // OPÉRATIONS
   {
     path: "/alerts",
-    name: "Alerts",
+    name: "Alertes",
     icon: "pe-7s-bell",
     component: Alerts,
     layout: "/admin",
-    section: "OPERATIONS",
+    section: "OPÉRATIONS",
     badge: "active"
   },
   {
@@ -80,23 +79,23 @@ const dashboardRoutes = [
     layout: "/admin",
     section: null
   },
-  // REPORTING
+  // RAPPORTS
   {
     path: "/reports",
-    name: "Reports",
+    name: "Rapports",
     icon: "pe-7s-news-paper",
     component: Reports,
     layout: "/admin",
-    section: "REPORTING"
+    section: "RAPPORTS"
   },
-  // SYSTEM
+  // SYSTÈME
   {
     path: "/settings",
-    name: "Settings",
+    name: "Paramètres",
     icon: "pe-7s-config",
     component: Settings,
     layout: "/admin",
-    section: "SYSTEM"
+    section: "SYSTÈME"
   }
 ];
 

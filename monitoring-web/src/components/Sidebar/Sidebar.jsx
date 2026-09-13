@@ -13,7 +13,6 @@ class Sidebar extends Component {
   }
 
   activeRoute(routeName) {
-    // For routes with params like /installations/:id, match the base path
     const base = routeName.split("/:")[0];
     return this.props.location.pathname.indexOf(base) > -1 ? "active" : "";
   }
@@ -26,7 +25,6 @@ class Sidebar extends Component {
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
     this.fetchAlertCount();
-    // Refresh alert count every 30 seconds
     this.alertInterval = setInterval(() => this.fetchAlertCount(), 30000);
   }
 
@@ -50,11 +48,10 @@ class Sidebar extends Component {
 
     return (
       <div id="sidebar" className="sidebar">
-        {/* Brand Logo */}
+        {/* Logo ALROMAR ENERGIES */}
         <div className="logo">
           <NavLink to="/admin/dashboard" className="solaris-brand-wrapper">
             <div className="solaris-brand-icon">
-              {/* Sun SVG icon */}
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="4" fill="white" stroke="white" />
                 <line x1="12" y1="2" x2="12" y2="5" />
@@ -68,19 +65,17 @@ class Sidebar extends Component {
               </svg>
             </div>
             <div className="solaris-brand-text">
-              <span className="solaris-brand-name">SOLARIS</span>
-              <span className="solaris-brand-subtitle">Energy Platform</span>
+              <span className="solaris-brand-name">ALROMAR</span>
+              <span className="solaris-brand-subtitle">ENERGIES</span>
             </div>
           </NavLink>
         </div>
 
         <div className="sidebar-wrapper">
           <ul className="nav">
-            {/* Mobile user info at top */}
             {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
 
             {this.props.routes.map((prop, key) => {
-              // Skip hidden routes (e.g. InstallationDetail)
               if (prop.hidden) return null;
               if (prop.redirect) return null;
 
@@ -90,7 +85,6 @@ class Sidebar extends Component {
                 lastSection = prop.section;
               }
 
-              // Determine badge value
               let badgeValue = null;
               if (prop.badge === "active" && this.state.activeAlerts > 0) {
                 badgeValue = this.state.activeAlerts;
@@ -121,11 +115,10 @@ class Sidebar extends Component {
             })}
           </ul>
 
-          {/* Sidebar footer */}
           <div className="solaris-sidebar-footer">
             <div className="solaris-sidebar-footer-inner">
               <div className="solaris-pulse-dot" style={{ flexShrink: 0 }} />
-              <span>Simulation Active</span>
+              <span>Simulation active</span>
             </div>
           </div>
         </div>

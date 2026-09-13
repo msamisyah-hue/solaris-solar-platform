@@ -1,27 +1,27 @@
 /* ==========================================================================
-   SOLARIS: Solar Energy Management & Monitoring Platform
-   Enterprise Design System & SaaS UI Theme
+   ALROMAR ENERGIES — Plateforme de Gestion & Surveillance Solaire
+   Système de Design Entreprise
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --solaris-bg: #f8fafc;
+  --solaris-bg: #F7FAF9;
   --solaris-surface: #ffffff;
-  --solaris-border: #e2e8f0;
-  --solaris-border-hover: #cbd5e1;
-  --solaris-text-primary: #0f172a;
-  --solaris-text-secondary: #475569;
-  --solaris-text-muted: #64748b;
-  --solaris-text-light: #94a3b8;
+  --solaris-border: #d1e0db;
+  --solaris-border-hover: #a8c5bc;
+  --solaris-text-primary: #1F2937;
+  --solaris-text-secondary: #374151;
+  --solaris-text-muted: #6B7280;
+  --solaris-text-light: #9CA3AF;
   
-  --solaris-gold: #f59e0b;
-  --solaris-gold-light: #fef3c7;
-  --solaris-gold-dark: #d97706;
+  --solaris-gold: #F4B942;
+  --solaris-gold-light: #FEF3C7;
+  --solaris-gold-dark: #D97706;
   
-  --solaris-emerald: #10b981;
-  --solaris-emerald-light: #d1fae5;
-  --solaris-emerald-dark: #059669;
+  --solaris-emerald: #38A169;
+  --solaris-emerald-light: #C6F6D5;
+  --solaris-emerald-dark: #176B5B;
   
   --solaris-sky: #0284c7;
   --solaris-sky-light: #e0f2fe;
@@ -29,13 +29,13 @@
   --solaris-danger: #ef4444;
   --solaris-danger-light: #fee2e2;
   
-  --solaris-sidebar-bg: #0f172a;
-  --solaris-sidebar-hover: #1e293b;
-  --solaris-sidebar-active: #1e293b;
+  --solaris-sidebar-bg: #176B5B;
+  --solaris-sidebar-hover: #1a7d6b;
+  --solaris-sidebar-active: #0f4f43;
   
-  --solaris-shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-  --solaris-shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-  --solaris-shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --solaris-shadow-sm: 0 1px 2px 0 rgba(23, 107, 91, 0.06);
+  --solaris-shadow-md: 0 4px 6px -1px rgba(23, 107, 91, 0.08), 0 2px 4px -2px rgba(23, 107, 91, 0.05);
+  --solaris-shadow-lg: 0 10px 15px -3px rgba(23, 107, 91, 0.10), 0 4px 6px -4px rgba(23, 107, 91, 0.05);
   --solaris-radius: 10px;
   --solaris-radius-sm: 6px;
 }
@@ -80,13 +80,13 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  background: linear-gradient(135deg, #F4B942 0%, #176B5B 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
   font-size: 20px;
-  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 10px rgba(23, 107, 91, 0.35);
   flex-shrink: 0;
 }
 
@@ -150,18 +150,18 @@ body {
 }
 
 .sidebar .nav li a:hover i {
-  color: var(--solaris-gold) !important;
+  color: #F4B942 !important;
 }
 
 .sidebar .nav li.active a {
-  background-color: rgba(245, 158, 11, 0.15) !important;
-  color: #f59e0b !important;
+  background-color: rgba(244, 185, 66, 0.18) !important;
+  color: #F4B942 !important;
   font-weight: 600 !important;
-  border-left: 3px solid var(--solaris-gold) !important;
+  border-left: 3px solid #F4B942 !important;
 }
 
 .sidebar .nav li.active a i {
-  color: var(--solaris-gold) !important;
+  color: #F4B942 !important;
 }
 
 .solaris-badge-pill {
@@ -432,10 +432,10 @@ body {
   left: 0;
 }
 
-.solaris-kpi-bar-gold { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-.solaris-kpi-bar-emerald { background: linear-gradient(90deg, #10b981, #34d399); }
+.solaris-kpi-bar-gold { background: linear-gradient(90deg, #F4B942, #f6c85e); }
+.solaris-kpi-bar-emerald { background: linear-gradient(90deg, #38A169, #48bb78); }
 .solaris-kpi-bar-sky { background: linear-gradient(90deg, #0284c7, #38bdf8); }
-.solaris-kpi-bar-orange { background: linear-gradient(90deg, #ea580c, #f97316); }
+.solaris-kpi-bar-orange { background: linear-gradient(90deg, #176B5B, #38A169); }
 
 /* ==========================================================================
    SOLARIS ENTERPRISE DATA TABLES
@@ -546,7 +546,7 @@ body {
 }
 
 .solaris-btn-primary {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(135deg, #176B5B 0%, #38A169 100%);
   color: white;
   border: none;
   padding: 8px 18px;
@@ -558,13 +558,13 @@ body {
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+  box-shadow: 0 2px 4px rgba(23, 107, 91, 0.2);
 }
 
 .solaris-btn-primary:hover {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  background: linear-gradient(135deg, #0f4f43 0%, #176B5B 100%);
   color: white;
-  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 4px 8px rgba(23, 107, 91, 0.3);
 }
 
 .solaris-btn-outline {
@@ -604,9 +604,9 @@ body {
 
 .solaris-search-input:focus {
   background-color: #ffffff;
-  border-color: var(--solaris-gold);
+  border-color: #176B5B;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+  box-shadow: 0 0 0 3px rgba(23, 107, 91, 0.15);
 }
 
 .solaris-search-wrapper {
@@ -1117,8 +1117,8 @@ body {
 }
 
 .solaris-tab.active {
-  color: var(--solaris-gold);
-  border-bottom-color: var(--solaris-gold);
+  color: #176B5B;
+  border-bottom-color: #176B5B;
 }
 
 /* Settings form */
@@ -1148,8 +1148,8 @@ body {
 
 .solaris-form-control:focus {
   outline: none;
-  border-color: var(--solaris-gold);
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
+  border-color: #176B5B;
+  box-shadow: 0 0 0 3px rgba(23, 107, 91, 0.12);
 }
 
 .solaris-toggle {
@@ -1193,7 +1193,7 @@ body {
 }
 
 .solaris-switch.on {
-  background: var(--solaris-emerald);
+  background: #38A169;
 }
 
 .solaris-switch.off {
@@ -1234,7 +1234,7 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  background: linear-gradient(135deg, #F4B942 0%, #176B5B 100%);
   display: flex;
   align-items: center;
   justify-content: center;

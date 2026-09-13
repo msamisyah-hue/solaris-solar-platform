@@ -36,7 +36,7 @@ class Admin extends Component {
         return routes[i].name;
       }
     }
-    return "SOLARIS";
+    return "ALROMAR ENERGIES";
   };
 
   toggleSidebar = () => {

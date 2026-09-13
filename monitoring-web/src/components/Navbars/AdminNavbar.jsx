@@ -6,8 +6,8 @@ class AdminNavbar extends Component {
     super(props);
     this.state = {
       alertCount: 0,
-      currentTime: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      currentDate: new Date().toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short", year: "numeric" }),
+      currentTime: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }),
+      currentDate: new Date().toLocaleDateString("fr-FR", { weekday: "short", day: "2-digit", month: "short", year: "numeric" }),
       notifOpen: false
     };
     this.notifRef = React.createRef();
@@ -17,7 +17,7 @@ class AdminNavbar extends Component {
     this.fetchAlertCount();
     this.clockInterval = setInterval(() => {
       this.setState({
-        currentTime: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        currentTime: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
       });
     }, 30000);
     document.addEventListener("mousedown", this.handleOutsideClick);
@@ -57,26 +57,24 @@ class AdminNavbar extends Component {
   render() {
     const { brandText } = this.props;
     const { alertCount, currentTime, currentDate, notifOpen } = this.state;
-
-    // Build breadcrumb: SOLARIS > PageName
-    const pageName = brandText && brandText !== "SOLARIS" ? brandText : null;
+    const pageName = brandText && brandText !== "ALROMAR ENERGIES" ? brandText : null;
 
     return (
       <div className="navbar-default solaris-navbar-wrapper">
         <div className="solaris-topbar">
-          {/* Left: Hamburger + Page Title */}
+          {/* Gauche : hamburger + titre page */}
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <button
               className="solaris-hamburger"
               onClick={this.mobileSidebarToggle}
-              aria-label="Toggle Sidebar"
+              aria-label="Menu"
             >
               <i className="fa fa-bars" />
             </button>
             <div className="solaris-topbar-title-group">
-              <h1 className="solaris-page-title">{pageName || "Dashboard"}</h1>
+              <h1 className="solaris-page-title">{pageName || "Tableau de bord"}</h1>
               <div className="solaris-breadcrumbs">
-                <span>SOLARIS</span>
+                <span>ALROMAR ENERGIES</span>
                 {pageName && (
                   <>
                     <i className="fa fa-angle-right" style={{ fontSize: "11px" }} />
@@ -87,15 +85,15 @@ class AdminNavbar extends Component {
             </div>
           </div>
 
-          {/* Right: Status pill + time + notifications + user */}
+          {/* Droite : statut + heure + notifications + utilisateur */}
           <div className="solaris-topbar-actions">
-            {/* Live simulation status */}
+            {/* Statut simulation */}
             <div className="solaris-status-pill">
               <span className="solaris-pulse-dot" />
-              Live Simulation
+              Simulation en direct
             </div>
 
-            {/* Date/time */}
+            {/* Date/heure */}
             <div className="solaris-topbar-datetime">
               <span className="solaris-topbar-time">{currentTime}</span>
               <span className="solaris-topbar-date">{currentDate}</span>
@@ -119,7 +117,7 @@ class AdminNavbar extends Component {
                     <span>Notifications</span>
                     {alertCount > 0 && (
                       <span className="solaris-badge badge-critical" style={{ fontSize: "11px" }}>
-                        {alertCount} active
+                        {alertCount} active{alertCount > 1 ? "s" : ""}
                       </span>
                     )}
                   </div>
@@ -127,30 +125,30 @@ class AdminNavbar extends Component {
                     {alertCount > 0 ? (
                       <div className="solaris-notif-item">
                         <i className="fa fa-exclamation-triangle" style={{ color: "#ef4444", marginRight: "8px" }} />
-                        <span>{alertCount} system alert{alertCount > 1 ? "s" : ""} require attention</span>
+                        <span>{alertCount} alerte{alertCount > 1 ? "s" : ""} nécessite{alertCount > 1 ? "nt" : ""} votre attention</span>
                       </div>
                     ) : (
                       <div className="solaris-notif-empty">
-                        <i className="fa fa-check-circle" style={{ color: "#10b981", fontSize: "22px" }} />
-                        <p>All systems operational</p>
+                        <i className="fa fa-check-circle" style={{ color: "#38A169", fontSize: "22px" }} />
+                        <p>Tous les systèmes sont opérationnels</p>
                       </div>
                     )}
                   </div>
                   <div className="solaris-notif-footer">
                     <a href="/admin/alerts" className="solaris-notif-link">
-                      View all alerts →
+                      Voir toutes les alertes →
                     </a>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* User badge */}
+            {/* Badge utilisateur */}
             <div className="solaris-user-badge">
               <div className="solaris-avatar">AD</div>
               <div className="solaris-user-info">
                 <span className="solaris-user-name">Admin</span>
-                <span className="solaris-user-role">Engineer</span>
+                <span className="solaris-user-role">Ingénieur</span>
               </div>
             </div>
           </div>

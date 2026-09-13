@@ -39,7 +39,7 @@ app.get('/api/health', function(req, res) {
     if (err) {
       return res.status(500).json({ status: 'error', database: 'disconnected', error: err.message });
     }
-    res.json({ status: 'ok', database: 'connected', port: PORT, system: 'SOLARIS Energy Platform' });
+    res.json({ status: 'ok', database: 'connected', port: PORT, system: 'ALROMAR ENERGIES Platform' });
   });
 });
 

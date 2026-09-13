@@ -3,7 +3,6 @@ import { Grid, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-// Existing working chart components — preserved as-is
 import Surface_temp_chart from "components/Chart/Surface_temp_chart";
 import Controller_output from "components/Controller_output.js";
 import SurfaceAndChargeSpeedChart from "components/Chart/SurfaceAndChargeSpeedChart";
@@ -46,13 +45,11 @@ function StatusBadge({ status }) {
     maintenance: "badge-maintenance",
     critical: "badge-critical"
   };
+  const dot = { operational: "#38A169", warning: "#F4B942", maintenance: "#3b82f6", critical: "#ef4444" };
   return (
     <span className={`solaris-badge ${map[s] || "badge-info"}`}>
-      <span style={{
-        width: "6px", height: "6px", borderRadius: "50%", display: "inline-block",
-        background: s === "operational" ? "#10b981" : s === "warning" ? "#f59e0b" : s === "maintenance" ? "#3b82f6" : "#ef4444"
-      }} />
-      {status}
+      <span style={{ width: "6px", height: "6px", borderRadius: "50%", display: "inline-block", background: dot[s] || "#94a3b8" }} />
+      {s === "operational" ? "Opérationnel" : s === "warning" ? "Avertissement" : s === "maintenance" ? "Maintenance" : status}
     </span>
   );
 }
@@ -65,14 +62,12 @@ class Dashboard extends Component {
       installations: [],
       recentAlerts: [],
       lastReading: null,
-      loading: true,
-      statsError: false
+      loading: true
     };
   }
 
   componentDidMount() {
     this.loadData();
-    // Refresh stats every 30 seconds
     this.refreshInterval = setInterval(() => this.loadData(), 30000);
   }
 
@@ -89,11 +84,8 @@ class Dashboard extends Component {
     ]).then(([statsRes, instRes, alertsRes, liveRes]) => {
       this.setState({
         stats: statsRes ? statsRes.data : null,
-        statsError: !statsRes,
         installations: (instRes.data || []).slice(0, 5),
-        recentAlerts: (alertsRes.data || [])
-          .filter(a => a.status === "active")
-          .slice(0, 4),
+        recentAlerts: (alertsRes.data || []).filter(a => a.status === "active").slice(0, 4),
         lastReading: liveRes ? (liveRes.data || [])[0] : null,
         loading: false
       });
@@ -114,7 +106,6 @@ class Dashboard extends Component {
   render() {
     const { stats, installations, recentAlerts, lastReading, loading } = this.state;
 
-    // KPI derived values
     const totalInstallations = stats ? this.formatInt(stats.total_installations) : "—";
     const totalPanels        = stats ? this.formatInt(stats.total_panels) : "—";
     const dailyYield         = stats ? this.formatInt(stats.total_daily_yield_kwh) : "—";
@@ -126,12 +117,12 @@ class Dashboard extends Component {
 
     return (
       <div className="content">
-        {/* Page header */}
+        {/* En-tête de page */}
         <div className="solaris-page-header">
           <div>
-            <h2 className="solaris-section-title">Portfolio Overview</h2>
+            <h2 className="solaris-section-title">Vue d'ensemble du portefeuille</h2>
             <p className="solaris-section-subtitle">
-              Real-time monitoring across all solar installations · Simulation data
+              Surveillance en temps réel de toutes les installations solaires · Données de simulation
             </p>
           </div>
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -139,7 +130,7 @@ class Dashboard extends Component {
               <Link to="/admin/alerts" style={{ textDecoration: "none" }}>
                 <span className="severity-critical">
                   <i className="fa fa-exclamation-triangle" />
-                  {activeAlerts} Active Alert{activeAlerts > 1 ? "s" : ""}
+                  {activeAlerts} alerte{activeAlerts > 1 ? "s" : ""} active{activeAlerts > 1 ? "s" : ""}
                 </span>
               </Link>
             )}
@@ -147,14 +138,14 @@ class Dashboard extends Component {
               <Link to="/admin/maintenance" style={{ textDecoration: "none" }}>
                 <span className="severity-info">
                   <i className="fa fa-wrench" />
-                  {upcomingMaint} Scheduled
+                  {upcomingMaint} planifiée{upcomingMaint > 1 ? "s" : ""}
                 </span>
               </Link>
             )}
           </div>
         </div>
 
-        {/* KPI Cards Row */}
+        {/* Cartes KPI principales */}
         <div className="solaris-kpi-grid">
           <KpiCard
             label="Total Installations"
@@ -163,64 +154,62 @@ class Dashboard extends Component {
             colorClass="solaris-kpi-icon-sky"
             barClass="solaris-kpi-bar-sky"
             trend="+1"
-            trendLabel="this quarter"
+            trendLabel="ce trimestre"
           />
           <KpiCard
-            label="Active Solar Panels"
+            label="Panneaux Solaires Actifs"
             value={totalPanels}
             icon="pe-7s-sun"
             colorClass="solaris-kpi-icon-gold"
             barClass="solaris-kpi-bar-gold"
-            trendLabel={`${totalCapacity} kWp installed`}
+            trendLabel={`${totalCapacity} kWp installés`}
           />
           <KpiCard
-            label="Energy Produced Today"
+            label="Énergie Produite Aujourd'hui"
             value={dailyYield}
             unit="kWh"
             icon="pe-7s-lightning"
             colorClass="solaris-kpi-icon-emerald"
             barClass="solaris-kpi-bar-emerald"
-            trend="↑ Peak"
-            trendLabel="production"
+            trend="↑ Pic"
+            trendLabel="de production"
           />
           <KpiCard
-            label="Average Efficiency"
+            label="Rendement Moyen"
             value={avgEfficiency}
             unit="%"
             icon="pe-7s-signal"
             colorClass="solaris-kpi-icon-slate"
             barClass="solaris-kpi-bar-orange"
-            trendLabel="portfolio average"
+            trendLabel="moyenne du portefeuille"
           />
         </div>
 
-        {/* Secondary KPI row */}
+        {/* Ligne KPI secondaire */}
         <Grid fluid style={{ padding: 0 }}>
           <Row>
-            {/* CO₂ offset card */}
             <Col md={3} sm={6}>
-              <div className="solaris-kpi-card" style={{ background: "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)", border: "1px solid #a7f3d0" }}>
+              <div className="solaris-kpi-card" style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)", border: "1px solid #86efac" }}>
                 <div className="solaris-kpi-top">
-                  <span className="solaris-kpi-label" style={{ color: "#065f46" }}>CO₂ Offset Today</span>
-                  <div className="solaris-kpi-icon-box" style={{ background: "#10b981", color: "white" }}>
+                  <span className="solaris-kpi-label" style={{ color: "#166534" }}>CO₂ Compensé Aujourd'hui</span>
+                  <div className="solaris-kpi-icon-box" style={{ background: "#38A169", color: "white" }}>
                     <i className="fa fa-leaf" />
                   </div>
                 </div>
                 <div>
-                  <span className="solaris-kpi-value" style={{ color: "#065f46" }}>{co2Offset}</span>
-                  <span className="solaris-kpi-unit" style={{ color: "#059669" }}> tonnes</span>
+                  <span className="solaris-kpi-value" style={{ color: "#166534" }}>{co2Offset}</span>
+                  <span className="solaris-kpi-unit" style={{ color: "#16a34a" }}> tonnes</span>
                 </div>
-                <div className="solaris-kpi-bottom" style={{ color: "#059669" }}>
-                  <span>≈ {stats ? stats.trees_equivalent : "—"} trees absorbed</span>
+                <div className="solaris-kpi-bottom" style={{ color: "#16a34a" }}>
+                  <span>≈ {stats ? stats.trees_equivalent : "—"} arbres absorbés</span>
                 </div>
               </div>
             </Col>
 
-            {/* Live sensor reading */}
             <Col md={3} sm={6}>
               <div className="solaris-kpi-card">
                 <div className="solaris-kpi-top">
-                  <span className="solaris-kpi-label">Live Solar Voltage</span>
+                  <span className="solaris-kpi-label">Tension Solaire en Direct</span>
                   <div className="solaris-kpi-icon-box solaris-kpi-icon-gold">
                     <i className="fa fa-bolt" />
                   </div>
@@ -232,17 +221,16 @@ class Dashboard extends Component {
                   <span className="solaris-kpi-unit">V</span>
                 </div>
                 <div className="solaris-kpi-bottom">
-                  <span>Solar Current: {lastReading ? parseFloat(lastReading.solar_current).toFixed(2) : "—"} A</span>
+                  <span>Courant solaire : {lastReading ? parseFloat(lastReading.solar_current).toFixed(2) : "—"} A</span>
                 </div>
                 <div className="solaris-kpi-bar solaris-kpi-bar-gold" />
               </div>
             </Col>
 
-            {/* Battery */}
             <Col md={3} sm={6}>
               <div className="solaris-kpi-card">
                 <div className="solaris-kpi-top">
-                  <span className="solaris-kpi-label">Battery Voltage</span>
+                  <span className="solaris-kpi-label">Tension Batterie</span>
                   <div className="solaris-kpi-icon-box solaris-kpi-icon-sky">
                     <i className="fa fa-battery-three-quarters" />
                   </div>
@@ -254,50 +242,49 @@ class Dashboard extends Component {
                   <span className="solaris-kpi-unit">V</span>
                 </div>
                 <div className="solaris-kpi-bottom">
-                  <span>State: {lastReading ? lastReading.battery_state : "—"}</span>
+                  <span>État : {lastReading ? lastReading.battery_state : "—"}</span>
                 </div>
                 <div className="solaris-kpi-bar solaris-kpi-bar-sky" />
               </div>
             </Col>
 
-            {/* Alerts summary */}
             <Col md={3} sm={6}>
               <div className="solaris-kpi-card" style={activeAlerts > 0 ? { borderColor: "#fecaca" } : {}}>
                 <div className="solaris-kpi-top">
-                  <span className="solaris-kpi-label">System Alerts</span>
-                  <div className="solaris-kpi-icon-box" style={activeAlerts > 0 ? { background: "#fee2e2", color: "#dc2626" } : { background: "#d1fae5", color: "#059669" }}>
+                  <span className="solaris-kpi-label">Alertes Système</span>
+                  <div className="solaris-kpi-icon-box" style={activeAlerts > 0 ? { background: "#fee2e2", color: "#dc2626" } : { background: "#dcfce7", color: "#16a34a" }}>
                     <i className={`fa fa-${activeAlerts > 0 ? "exclamation-triangle" : "check-circle"}`} />
                   </div>
                 </div>
                 <div>
-                  <span className="solaris-kpi-value" style={activeAlerts > 0 ? { color: "#dc2626" } : { color: "#059669" }}>
+                  <span className="solaris-kpi-value" style={activeAlerts > 0 ? { color: "#dc2626" } : { color: "#16a34a" }}>
                     {activeAlerts > 0 ? activeAlerts : "OK"}
                   </span>
-                  {activeAlerts > 0 && <span className="solaris-kpi-unit">active</span>}
+                  {activeAlerts > 0 && <span className="solaris-kpi-unit">active{activeAlerts > 1 ? "s" : ""}</span>}
                 </div>
                 <div className="solaris-kpi-bottom">
                   <Link to="/admin/alerts" style={{ color: "#0284c7", fontSize: "12px", fontWeight: 600, textDecoration: "none" }}>
-                    View all alerts →
+                    Voir toutes les alertes →
                   </Link>
                 </div>
-                <div className="solaris-kpi-bar" style={{ background: activeAlerts > 0 ? "linear-gradient(90deg, #ef4444, #f87171)" : "linear-gradient(90deg, #10b981, #34d399)" }} />
+                <div className="solaris-kpi-bar" style={{ background: activeAlerts > 0 ? "linear-gradient(90deg, #ef4444, #f87171)" : "linear-gradient(90deg, #38A169, #48bb78)" }} />
               </div>
             </Col>
           </Row>
         </Grid>
 
-        {/* Real-time charts section */}
+        {/* Section télémétrie en direct */}
         <div style={{ marginTop: "12px", marginBottom: "8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
             <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--solaris-text-primary)", margin: "0 0 2px 0" }}>
-              Live Telemetry
+              Télémétrie en Direct
             </h3>
             <p style={{ fontSize: "12.5px", color: "var(--solaris-text-muted)", margin: 0 }}>
-              Real-time sensor data · Updates every 10 seconds
+              Données capteurs en temps réel · Mise à jour toutes les 10 secondes
             </p>
           </div>
           <Link to="/admin/energy" className="solaris-btn-outline" style={{ textDecoration: "none", fontSize: "12px" }}>
-            <i className="pe-7s-lightning" /> Full Monitoring
+            <i className="pe-7s-lightning" /> Surveillance complète
           </Link>
         </div>
 
@@ -307,12 +294,11 @@ class Dashboard extends Component {
               <div className="solaris-chart-card">
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Panel Surface Temperature</p>
-                    <p className="solaris-card-subtitle">°C · Real-time</p>
+                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Température Surface Panneau</p>
+                    <p className="solaris-card-subtitle">°C · Temps réel</p>
                   </div>
                   <span className="solaris-status-pill" style={{ fontSize: "11px", padding: "4px 10px" }}>
-                    <span className="solaris-pulse-dot" />
-                    Live
+                    <span className="solaris-pulse-dot" /> En direct
                   </span>
                 </div>
                 <div className="solaris-chart-body" style={{ padding: "16px" }}>
@@ -324,12 +310,11 @@ class Dashboard extends Component {
               <div className="solaris-chart-card">
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Controller Output</p>
-                    <p className="solaris-card-subtitle">Power gauge &amp; readings</p>
+                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Sortie Contrôleur</p>
+                    <p className="solaris-card-subtitle">Jauge de puissance &amp; lectures</p>
                   </div>
                   <span className="solaris-status-pill" style={{ fontSize: "11px", padding: "4px 10px" }}>
-                    <span className="solaris-pulse-dot" />
-                    Live
+                    <span className="solaris-pulse-dot" /> En direct
                   </span>
                 </div>
                 <div className="solaris-chart-body" style={{ padding: "16px" }}>
@@ -341,12 +326,11 @@ class Dashboard extends Component {
               <div className="solaris-chart-card">
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Charge Speed &amp; Temp</p>
-                    <p className="solaris-card-subtitle">kWh yield vs. surface temp</p>
+                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Vitesse de Charge &amp; Temp.</p>
+                    <p className="solaris-card-subtitle">Rendement kWh vs. température surface</p>
                   </div>
                   <span className="solaris-status-pill" style={{ fontSize: "11px", padding: "4px 10px" }}>
-                    <span className="solaris-pulse-dot" />
-                    Live
+                    <span className="solaris-pulse-dot" /> En direct
                   </span>
                 </div>
                 <div className="solaris-chart-body" style={{ padding: "16px" }}>
@@ -361,11 +345,11 @@ class Dashboard extends Component {
               <div className="solaris-chart-card">
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Solar Cell Voltage</p>
-                    <p className="solaris-card-subtitle">Volts · Real-time trend</p>
+                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Tension Cellule Solaire</p>
+                    <p className="solaris-card-subtitle">Volts · Tendance temps réel</p>
                   </div>
                   <Link to="/admin/analytics" className="solaris-btn-outline" style={{ textDecoration: "none", fontSize: "11px", padding: "5px 12px" }}>
-                    Historical →
+                    Historique →
                   </Link>
                 </div>
                 <div className="solaris-chart-body" style={{ padding: "16px" }}>
@@ -377,11 +361,11 @@ class Dashboard extends Component {
               <div className="solaris-chart-card">
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Battery Voltage</p>
-                    <p className="solaris-card-subtitle">Volts · Real-time trend</p>
+                    <p className="solaris-card-title" style={{ fontSize: "14px" }}>Tension Batterie</p>
+                    <p className="solaris-card-subtitle">Volts · Tendance temps réel</p>
                   </div>
                   <Link to="/admin/analytics" className="solaris-btn-outline" style={{ textDecoration: "none", fontSize: "11px", padding: "5px 12px" }}>
-                    Historical →
+                    Historique →
                   </Link>
                 </div>
                 <div className="solaris-chart-body" style={{ padding: "16px" }}>
@@ -392,19 +376,18 @@ class Dashboard extends Component {
           </Row>
         </Grid>
 
-        {/* Installations summary + recent alerts side-by-side */}
+        {/* Tableau installations + alertes récentes */}
         <Grid fluid style={{ padding: 0, marginTop: "8px" }}>
           <Row>
-            {/* Installations table */}
             <Col md={8}>
               <div className="solaris-chart-card">
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title">Installation Portfolio</p>
-                    <p className="solaris-card-subtitle">Current production by site</p>
+                    <p className="solaris-card-title">Portefeuille d'Installations</p>
+                    <p className="solaris-card-subtitle">Production actuelle par site</p>
                   </div>
                   <Link to="/admin/installations" className="solaris-btn-outline" style={{ textDecoration: "none", fontSize: "12px" }}>
-                    View all →
+                    Voir tout →
                   </Link>
                 </div>
                 <div className="solaris-table-wrapper">
@@ -412,11 +395,11 @@ class Dashboard extends Component {
                     <thead>
                       <tr>
                         <th>Installation</th>
-                        <th>Location</th>
-                        <th>Capacity</th>
-                        <th>Today's Yield</th>
-                        <th>Efficiency</th>
-                        <th>Status</th>
+                        <th>Localisation</th>
+                        <th>Capacité</th>
+                        <th>Production du jour</th>
+                        <th>Rendement</th>
+                        <th>État</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -424,13 +407,13 @@ class Dashboard extends Component {
                         <tr>
                           <td colSpan="6" style={{ textAlign: "center", padding: "32px", color: "var(--solaris-text-muted)" }}>
                             <i className="fa fa-spinner fa-spin" style={{ marginRight: "8px" }} />
-                            Loading installations…
+                            Chargement des installations…
                           </td>
                         </tr>
                       ) : installations.length === 0 ? (
                         <tr>
                           <td colSpan="6" style={{ textAlign: "center", padding: "32px", color: "var(--solaris-text-muted)" }}>
-                            No installations found
+                            Aucune installation trouvée
                           </td>
                         </tr>
                       ) : installations.map(inst => (
@@ -469,23 +452,22 @@ class Dashboard extends Component {
               </div>
             </Col>
 
-            {/* Recent alerts column */}
             <Col md={4}>
               <div className="solaris-chart-card" style={{ height: "100%" }}>
                 <div className="solaris-chart-header">
                   <div>
-                    <p className="solaris-card-title">Active Alerts</p>
-                    <p className="solaris-card-subtitle">Requires attention</p>
+                    <p className="solaris-card-title">Alertes Actives</p>
+                    <p className="solaris-card-subtitle">Nécessite une attention</p>
                   </div>
                   <Link to="/admin/alerts" className="solaris-btn-outline" style={{ textDecoration: "none", fontSize: "12px" }}>
-                    All →
+                    Tout →
                   </Link>
                 </div>
                 <div style={{ padding: "8px 0" }}>
                   {recentAlerts.length === 0 ? (
                     <div className="solaris-empty-state">
-                      <i className="fa fa-check-circle" style={{ color: "#10b981" }} />
-                      <p>All systems operational</p>
+                      <i className="fa fa-check-circle" style={{ color: "#38A169" }} />
+                      <p>Tous les systèmes sont opérationnels</p>
                     </div>
                   ) : recentAlerts.map(alert => {
                     const sev = (alert.severity || "info").toLowerCase();
@@ -493,11 +475,8 @@ class Dashboard extends Component {
                     const color = sev === "critical" ? "#dc2626" : sev === "warning" ? "#d97706" : "#0284c7";
                     return (
                       <div key={alert.id} style={{
-                        padding: "14px 20px",
-                        borderBottom: "1px solid var(--solaris-border)",
-                        display: "flex",
-                        gap: "12px",
-                        alignItems: "flex-start"
+                        padding: "14px 20px", borderBottom: "1px solid var(--solaris-border)",
+                        display: "flex", gap: "12px", alignItems: "flex-start"
                       }}>
                         <i className={`fa ${icon}`} style={{ color, marginTop: "2px", fontSize: "15px", flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -508,7 +487,7 @@ class Dashboard extends Component {
                             {alert.installation_name}
                           </div>
                           <span className={`severity-${sev}`} style={{ fontSize: "10.5px", padding: "2px 8px" }}>
-                            {alert.severity}
+                            {sev === "critical" ? "Critique" : sev === "warning" ? "Avertissement" : "Info"}
                           </span>
                         </div>
                       </div>
