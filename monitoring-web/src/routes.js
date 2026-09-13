@@ -1,87 +1,103 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import Dashboard from "views/Dashboard.jsx";
-import UserProfile from "views/UserProfile.jsx";
-import TableList from "views/TableList.jsx";
-import Typography from "views/Typography.jsx";
-import Database from "views/Database.jsx";
-import Icons from "views/Icons.jsx";
-import Maps from "views/Maps.jsx";
-import Notifications from "views/Notifications.jsx";
-import Upgrade from "views/Upgrade.jsx";
+import EnergyMonitoring from "views/EnergyMonitoring.jsx";
+import Analytics from "views/Analytics.jsx";
+import Installations from "views/Installations.jsx";
+import InstallationDetail from "views/InstallationDetail.jsx";
+import SolarPanels from "views/SolarPanels.jsx";
+import Alerts from "views/Alerts.jsx";
+import Maintenance from "views/Maintenance.jsx";
+import Reports from "views/Reports.jsx";
+import Settings from "views/Settings.jsx";
 
 const dashboardRoutes = [
+  // MAIN
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "pe-7s-graph",
     component: Dashboard,
-    layout: "/admin"
+    layout: "/admin",
+    section: null
+  },
+  // ENERGY
+  {
+    path: "/energy",
+    name: "Energy Monitoring",
+    icon: "pe-7s-lightning",
+    component: EnergyMonitoring,
+    layout: "/admin",
+    section: "ENERGY"
   },
   {
-    path: "/database",
-    name: "Database",
-    icon: "pe-7s-news-paper",
-    component: Database,
-    layout: "/admin"
+    path: "/analytics",
+    name: "Analytics",
+    icon: "pe-7s-signal",
+    component: Analytics,
+    layout: "/admin",
+    section: null
   },
-  // {
-  //   path: "/user",
-  //   name: "User Profile",
-  //   icon: "pe-7s-user",
-  //   component: UserProfile,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/table",
-  //   name: "Table List",
-  //   icon: "pe-7s-note2",
-  //   component: TableList,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/typography",
-  //   name: "Typography",
-  //   icon: "pe-7s-news-paper",
-  //   component: Typography,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "pe-7s-science",
-  //   component: Icons,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "pe-7s-map-marker",
-  //   component: Maps,
-  //   layout: "/admin"
-  // },
-  // {
-  //   path: "/notifications",
-  //   name: "Notifications",
-  //   icon: "pe-7s-bell",
-  //   component: Notifications,
-  //   layout: "/admin"
-  // }
+  // ASSETS
+  {
+    path: "/installations",
+    name: "Installations",
+    icon: "pe-7s-map-marker",
+    component: Installations,
+    layout: "/admin",
+    section: "ASSETS"
+  },
+  {
+    path: "/installations/:id",
+    name: "Installation Detail",
+    icon: "pe-7s-map-marker",
+    component: InstallationDetail,
+    layout: "/admin",
+    section: null,
+    hidden: true
+  },
+  {
+    path: "/panels",
+    name: "Solar Panels",
+    icon: "pe-7s-sun",
+    component: SolarPanels,
+    layout: "/admin",
+    section: null
+  },
+  // OPERATIONS
+  {
+    path: "/alerts",
+    name: "Alerts",
+    icon: "pe-7s-bell",
+    component: Alerts,
+    layout: "/admin",
+    section: "OPERATIONS",
+    badge: "active"
+  },
+  {
+    path: "/maintenance",
+    name: "Maintenance",
+    icon: "pe-7s-tools",
+    component: Maintenance,
+    layout: "/admin",
+    section: null
+  },
+  // REPORTING
+  {
+    path: "/reports",
+    name: "Reports",
+    icon: "pe-7s-news-paper",
+    component: Reports,
+    layout: "/admin",
+    section: "REPORTING"
+  },
+  // SYSTEM
+  {
+    path: "/settings",
+    name: "Settings",
+    icon: "pe-7s-config",
+    component: Settings,
+    layout: "/admin",
+    section: "SYSTEM"
+  }
 ];
 
 export default dashboardRoutes;

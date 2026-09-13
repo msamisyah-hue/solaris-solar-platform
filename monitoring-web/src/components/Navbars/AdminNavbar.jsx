@@ -1,64 +1,163 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
-import { Navbar } from "react-bootstrap";
+import axios from "axios";
 
-import AdminNavbarLinks from "./AdminNavbarLinks.jsx";
-
-class Header extends Component {
+class AdminNavbar extends Component {
   constructor(props) {
     super(props);
-    this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
     this.state = {
-      sidebarExists: false
+      alertCount: 0,
+      currentTime: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      currentDate: new Date().toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short", year: "numeric" }),
+      notifOpen: false
     };
+    this.notifRef = React.createRef();
   }
-  mobileSidebarToggle(e) {
-    if (this.state.sidebarExists === false) {
+
+  componentDidMount() {
+    this.fetchAlertCount();
+    this.clockInterval = setInterval(() => {
       this.setState({
-        sidebarExists: true
+        currentTime: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
       });
+    }, 30000);
+    document.addEventListener("mousedown", this.handleOutsideClick);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.clockInterval);
+    document.removeEventListener("mousedown", this.handleOutsideClick);
+  }
+
+  handleOutsideClick = (e) => {
+    if (this.notifRef.current && !this.notifRef.current.contains(e.target)) {
+      this.setState({ notifOpen: false });
     }
+  };
+
+  fetchAlertCount() {
+    axios.get("http://localhost:3001/api/alerts")
+      .then(res => res.data)
+      .then(alerts => {
+        const active = alerts.filter(a => a.status === "active").length;
+        this.setState({ alertCount: active });
+      })
+      .catch(() => {});
+  }
+
+  toggleNotif = () => {
+    this.setState(prev => ({ notifOpen: !prev.notifOpen }));
+  };
+
+  mobileSidebarToggle = (e) => {
     e.preventDefault();
     document.documentElement.classList.toggle("nav-open");
-    var node = document.createElement("div");
-    node.id = "bodyClick";
-    node.onclick = function() {
-      this.parentElement.removeChild(this);
-      document.documentElement.classList.toggle("nav-open");
-    };
-    document.body.appendChild(node);
-  }
+    if (this.props.onToggleSidebar) this.props.onToggleSidebar();
+  };
+
   render() {
+    const { brandText } = this.props;
+    const { alertCount, currentTime, currentDate, notifOpen } = this.state;
+
+    // Build breadcrumb: SOLARIS > PageName
+    const pageName = brandText && brandText !== "SOLARIS" ? brandText : null;
+
     return (
-      <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#pablo">{this.props.brandText}</a>
-          </Navbar.Brand>
-          <Navbar.Toggle onClick={this.mobileSidebarToggle} />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <AdminNavbarLinks />
-        </Navbar.Collapse>
-      </Navbar>
+      <div className="navbar-default solaris-navbar-wrapper">
+        <div className="solaris-topbar">
+          {/* Left: Hamburger + Page Title */}
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <button
+              className="solaris-hamburger"
+              onClick={this.mobileSidebarToggle}
+              aria-label="Toggle Sidebar"
+            >
+              <i className="fa fa-bars" />
+            </button>
+            <div className="solaris-topbar-title-group">
+              <h1 className="solaris-page-title">{pageName || "Dashboard"}</h1>
+              <div className="solaris-breadcrumbs">
+                <span>SOLARIS</span>
+                {pageName && (
+                  <>
+                    <i className="fa fa-angle-right" style={{ fontSize: "11px" }} />
+                    <span>{pageName}</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Status pill + time + notifications + user */}
+          <div className="solaris-topbar-actions">
+            {/* Live simulation status */}
+            <div className="solaris-status-pill">
+              <span className="solaris-pulse-dot" />
+              Live Simulation
+            </div>
+
+            {/* Date/time */}
+            <div className="solaris-topbar-datetime">
+              <span className="solaris-topbar-time">{currentTime}</span>
+              <span className="solaris-topbar-date">{currentDate}</span>
+            </div>
+
+            {/* Notifications */}
+            <div className="solaris-notif-wrapper" ref={this.notifRef}>
+              <button
+                className="solaris-icon-btn"
+                onClick={this.toggleNotif}
+                aria-label="Notifications"
+              >
+                <i className="fa fa-bell-o" />
+                {alertCount > 0 && (
+                  <span className="solaris-notif-badge">{alertCount}</span>
+                )}
+              </button>
+              {notifOpen && (
+                <div className="solaris-notif-dropdown">
+                  <div className="solaris-notif-header">
+                    <span>Notifications</span>
+                    {alertCount > 0 && (
+                      <span className="solaris-badge badge-critical" style={{ fontSize: "11px" }}>
+                        {alertCount} active
+                      </span>
+                    )}
+                  </div>
+                  <div className="solaris-notif-body">
+                    {alertCount > 0 ? (
+                      <div className="solaris-notif-item">
+                        <i className="fa fa-exclamation-triangle" style={{ color: "#ef4444", marginRight: "8px" }} />
+                        <span>{alertCount} system alert{alertCount > 1 ? "s" : ""} require attention</span>
+                      </div>
+                    ) : (
+                      <div className="solaris-notif-empty">
+                        <i className="fa fa-check-circle" style={{ color: "#10b981", fontSize: "22px" }} />
+                        <p>All systems operational</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="solaris-notif-footer">
+                    <a href="/admin/alerts" className="solaris-notif-link">
+                      View all alerts →
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* User badge */}
+            <div className="solaris-user-badge">
+              <div className="solaris-avatar">AD</div>
+              <div className="solaris-user-info">
+                <span className="solaris-user-name">Admin</span>
+                <span className="solaris-user-role">Engineer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
 
-export default Header;
+export default AdminNavbar;

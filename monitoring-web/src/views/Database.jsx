@@ -45,9 +45,7 @@ import {
 import clock from "assets/img/icons/clock.png";
 import temperature from "assets/img/icons/temperature.png";
 import humidity from "assets/img/icons/humidity.png";
-import { isThisTypeNode } from "typescript";
-
-import axios from'axios';
+import axios from 'axios';
 import SolarPowerIndicator from "components/Chart/SolarPowerIndicator";
 import Controller_output from "components/Controller_output.js";
 import Surface_temp_chart from "components/Chart/Surface_temp_chart";
