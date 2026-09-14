@@ -72,16 +72,12 @@ class Mixed_lineChart extends React.Component {
   };
 
   componentWillMount(){
-    console.log("__props__"+this.props.timePeriod)
-    console.log(this.state.rec)
-    // this.getDataFromDatabase();
+    // Initial load
   }
   componentDidMount() {
     this.getDataFromDatabase(this.props.timePeriod);
   }
   componentWillReceiveProps(prop){
-    console.log(prop)
-    // this.setState({rec:prop.timePeriod})
     this.getDataFromDatabase(prop.timePeriod)
   }
   getDataFromDatabase(_timePeriod){
@@ -104,7 +100,7 @@ class Mixed_lineChart extends React.Component {
             ...this.state.lineChartData,
             datasets:         [{
               type: "line",
-              label: "Solar Cell Voltage",
+              label: "Tension Cellule Solaire (V)",
               backgroundColor: "rgba(0, 0, 0, 0)",
               borderColor: "#DC143C",
               pointBackgroundColor: this.props.theme.palette.secondary.main,
@@ -115,7 +111,7 @@ class Mixed_lineChart extends React.Component {
             },        
             {
               type: "line",
-              label: "Solar Cell Current",
+              label: "Courant Cellule Solaire (A)",
               backgroundColor: "rgba(0, 0, 0, 0)",
               borderColor: this.props.theme.palette.primary.main,
               pointBackgroundColor: "#6495ED",
@@ -155,7 +151,7 @@ class Mixed_lineChart extends React.Component {
             ...this.state.lineChartData,
             datasets:         [{
               type: "line",
-              label: "Battery Voltage",
+              label: "Tension Batterie (V)",
               backgroundColor: "rgba(0, 0, 0, 0)",
               backgroundColor: "rgba(0, 0, 0, 0)",
               borderColor: "#DC143C",
@@ -166,7 +162,7 @@ class Mixed_lineChart extends React.Component {
             },        
             {
               type: "line",
-              label: "Battery Current",
+              label: "Courant Batterie (A)",
               backgroundColor: "rgba(0, 0, 0, 0)",
               borderColor: this.props.theme.palette.primary.main,
               pointBackgroundColor: "#6495ED",
@@ -195,7 +191,6 @@ class Mixed_lineChart extends React.Component {
         if(solar_infos){
           console.log(solar_infos)
           let _temperatures = solar_infos.map(solar_info => solar_info.temperature.toFixed(2))
-          console.log(_temperatures)
           let _labels = solar_infos.map(solar_info => solar_info.timestamp.slice(5,19)) 
   
         axios.get('http://localhost:3001/controller_info_last_'+_timePeriod)
@@ -209,7 +204,7 @@ class Mixed_lineChart extends React.Component {
                 ...this.state.lineChartData,
                 datasets:         [{
                   type: "line",
-                  label: "Charge Speed",
+                  label: "Vitesse de Charge (kWh)",
                   backgroundColor: "rgba(0, 0, 0, 0)",
                   borderColor: "#DC143C",
                   pointBackgroundColor: this.props.theme.palette.secondary.main,
@@ -219,7 +214,7 @@ class Mixed_lineChart extends React.Component {
                 },        
                 {
                   type: "line",
-                  label: "Surface Temperature",
+                  label: "Température Surface (°C)",
                   backgroundColor: "rgba(0, 0, 0, 0)",
                   borderColor: this.props.theme.palette.primary.main,
                   pointBackgroundColor: "#6495ED",

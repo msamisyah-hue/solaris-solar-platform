@@ -62,16 +62,12 @@ class LineChart extends React.Component {
   };
 
   componentWillMount(){
-    console.log("__props__"+this.props.timePeriod)
-    console.log(this.state.rec)
-    // this.getDataFromDatabase();
+    // Initial load
   }
   componentDidMount() {
     this.getDataFromDatabase(this.props.timePeriod);
   }
   componentWillReceiveProps(prop){
-    console.log(prop)
-    // this.setState({rec:prop.timePeriod})
     this.getDataFromDatabase(prop.timePeriod)
   }
   getDataFromDatabase(_timePeriod){
@@ -83,9 +79,6 @@ class LineChart extends React.Component {
           // console.log(Object.values(solar_infos))
           let temperatures = solar_infos.map( solar_info => solar_info.temperature.toFixed(2))
           let _labels = solar_infos.map(solar_info => solar_info.timestamp.slice(5,19)) 
-          // labels 
-          console.log(temperatures)
-          console.log(_labels)
 
           // console.log(...this.state.lineChartData)
 
@@ -114,9 +107,6 @@ class LineChart extends React.Component {
           // console.log(Object.values(solar_infos))
           let yield_kwhs = controller_infos.map( controller_info => controller_info.yield_kwh.toFixed(2))
           let _labels = controller_infos.map(controller_info => controller_info.timestamp.slice(5,19)) 
-          // labels 
-          console.log(yield_kwhs)
-          console.log(_labels)
 
           // console.log(...this.state.lineChartData)
 

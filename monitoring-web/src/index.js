@@ -11,13 +11,24 @@ import "./assets/css/pe-icon-7-stroke.css";
 import "./assets/css/solaris.css";
 
 import AdminLayout from "layouts/Admin.jsx";
+import Login from "views/Login.jsx";
+import PrivateRoute from "components/PrivateRoute.jsx";
+import { AppProvider } from "./AppContext";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-  </BrowserRouter>,
+  <AppProvider>
+    <BrowserRouter>
+      <Switch>
+        {/* Page de connexion — accessible sans authentification */}
+        <Route path="/login" component={Login} />
+
+        {/* Toutes les routes /admin/* sont protégées */}
+        <PrivateRoute path="/admin" component={AdminLayout} />
+
+        {/* Redirection racine → login */}
+        <Redirect from="/" to="/login" />
+      </Switch>
+    </BrowserRouter>
+  </AppProvider>,
   document.getElementById("root")
 );

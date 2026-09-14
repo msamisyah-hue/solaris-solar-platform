@@ -19,7 +19,7 @@ class Battery_voltage_chart extends React.Component {
       datasets: [
         {
           type: "line",
-          label: "Battery Voltage Chart",
+          label: "Tension Batterie (V)",
           backgroundColor: "rgba(0, 0, 0, 0)",
           borderColor: this.props.theme.palette.primary.main,
           pointBackgroundColor: this.props.theme.palette.secondary.main,
@@ -110,7 +110,6 @@ class Battery_voltage_chart extends React.Component {
     .then( controller_info => {
       if(controller_info){
         let _battery_voltage = controller_info.battery_voltage.toFixed(2);
-        console.log(controller_info)
         const oldBtcDataSet = this.state.lineChartData.datasets[0];
         const newBtcDataSet = { ...oldBtcDataSet };
         newBtcDataSet.data.push(_battery_voltage);

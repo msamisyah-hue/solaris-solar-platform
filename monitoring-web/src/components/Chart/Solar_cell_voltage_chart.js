@@ -19,7 +19,7 @@ class Solar_cell_voltage_chart extends React.Component {
       datasets: [
         {
           type: "line",
-          label: "Solar Cell Voltage Chart",
+          label: "Tension Cellule Solaire (V)",
           backgroundColor: "rgba(0, 0, 0, 0)",
           borderColor: this.props.theme.palette.primary.main,
           pointBackgroundColor: this.props.theme.palette.secondary.main,
@@ -110,7 +110,6 @@ class Solar_cell_voltage_chart extends React.Component {
     .then( solar_info => {
       if(solar_info){
         let _solar_voltage = solar_info.solar_voltage.toFixed(2);
-        console.log(solar_info)
         const oldBtcDataSet = this.state.lineChartData.datasets[0];
         const newBtcDataSet = { ...oldBtcDataSet };
         newBtcDataSet.data.push(_solar_voltage);

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AppContext } from "../AppContext";
 
 import Surface_temp_chart from "components/Chart/Surface_temp_chart";
 import Controller_output from "components/Controller_output.js";
@@ -55,6 +56,7 @@ function StatusBadge({ status }) {
 }
 
 class Dashboard extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -148,7 +150,7 @@ class Dashboard extends Component {
         {/* Cartes KPI principales */}
         <div className="solaris-kpi-grid">
           <KpiCard
-            label="Total Installations"
+            label="Installations Totales"
             value={totalInstallations}
             icon="pe-7s-map-marker"
             colorClass="solaris-kpi-icon-sky"

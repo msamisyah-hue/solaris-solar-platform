@@ -1361,3 +1361,229 @@ body {
   color: var(--solaris-gold-dark);
   text-decoration: none;
 }
+
+/* ==========================================================================
+   ALROMAR ENERGIES — MODE SOMBRE
+   ========================================================================== */
+
+body.alromar-dark {
+  background-color: #0f1923 !important;
+  color: #e2e8f0 !important;
+}
+
+body.alromar-dark .main-panel {
+  background-color: #0f1923 !important;
+}
+
+/* Dark sidebar stays same (already dark) */
+body.alromar-dark .sidebar {
+  background-color: #0a1118 !important;
+  border-right: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+/* Dark navbar */
+body.alromar-dark .navbar-default,
+body.alromar-dark .solaris-navbar-wrapper {
+  background-color: #1a2535 !important;
+  border-bottom: 1px solid #2d3748 !important;
+}
+
+body.alromar-dark .solaris-page-title {
+  color: #f1f5f9 !important;
+}
+
+body.alromar-dark .solaris-breadcrumbs {
+  color: #94a3b8 !important;
+}
+
+/* Dark cards */
+body.alromar-dark .card,
+body.alromar-dark .solaris-card,
+body.alromar-dark .solaris-kpi-card,
+body.alromar-dark .solaris-chart-card {
+  background: #1a2535 !important;
+  border-color: #2d3748 !important;
+  color: #e2e8f0 !important;
+}
+
+body.alromar-dark .solaris-card-title,
+body.alromar-dark .solaris-kpi-value,
+body.alromar-dark .solaris-section-title,
+body.alromar-dark .solaris-page-title {
+  color: #f1f5f9 !important;
+}
+
+body.alromar-dark .solaris-card-subtitle,
+body.alromar-dark .solaris-kpi-label,
+body.alromar-dark .solaris-kpi-bottom,
+body.alromar-dark .solaris-section-subtitle {
+  color: #94a3b8 !important;
+}
+
+body.alromar-dark .solaris-chart-header {
+  border-bottom-color: #2d3748 !important;
+  background: #1a2535;
+}
+
+/* Dark tables */
+body.alromar-dark .solaris-table th {
+  color: #94a3b8 !important;
+  border-bottom-color: #2d3748 !important;
+  background: #1e2d3d;
+}
+
+body.alromar-dark .solaris-table td {
+  color: #e2e8f0 !important;
+  border-bottom-color: #2d3748 !important;
+}
+
+body.alromar-dark .solaris-table tbody tr:hover {
+  background-color: #1e2d3d !important;
+}
+
+/* Dark buttons */
+body.alromar-dark .solaris-btn-outline {
+  background: #1e2d3d;
+  border-color: #2d3748;
+  color: #cbd5e1;
+}
+
+body.alromar-dark .solaris-btn-outline:hover {
+  background: #253649;
+  color: #f1f5f9;
+}
+
+/* Dark inputs */
+body.alromar-dark .solaris-form-control,
+body.alromar-dark .solaris-search-input {
+  background: #1e2d3d !important;
+  border-color: #2d3748 !important;
+  color: #e2e8f0 !important;
+}
+
+body.alromar-dark .solaris-form-control:focus,
+body.alromar-dark .solaris-search-input:focus {
+  border-color: #38A169 !important;
+  box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.2) !important;
+}
+
+/* Dark icon button */
+body.alromar-dark .solaris-icon-btn {
+  background: #1e2d3d;
+  border-color: #2d3748;
+  color: #94a3b8;
+}
+
+/* Dark user badge */
+body.alromar-dark .solaris-user-badge {
+  background: #1e2d3d;
+  border-color: #2d3748;
+}
+
+body.alromar-dark .solaris-user-name {
+  color: #f1f5f9 !important;
+}
+
+/* Dark status pill */
+body.alromar-dark .solaris-status-pill {
+  background: rgba(56, 161, 105, 0.15);
+  border-color: rgba(56, 161, 105, 0.3);
+  color: #68d391;
+}
+
+/* Dark modal */
+body.alromar-dark .solaris-modal-box {
+  background: #1a2535;
+  border-color: #2d3748;
+}
+
+body.alromar-dark .solaris-modal-header,
+body.alromar-dark .solaris-modal-footer {
+  border-color: #2d3748 !important;
+  background: #1a2535 !important;
+}
+
+/* Dark footer */
+body.alromar-dark .footer {
+  background: #1a2535 !important;
+  border-top-color: #2d3748 !important;
+  color: #94a3b8 !important;
+}
+
+/* Dark segment controls */
+body.alromar-dark .solaris-btn-group {
+  background: #1e2d3d;
+  border-color: #2d3748;
+}
+
+body.alromar-dark .solaris-btn-tab {
+  color: #94a3b8;
+}
+
+body.alromar-dark .solaris-btn-tab.active {
+  background: #253649;
+  color: #f1f5f9;
+}
+
+/* Dark notification dropdown */
+body.alromar-dark .solaris-notif-dropdown {
+  background: #1a2535;
+  border-color: #2d3748;
+}
+
+body.alromar-dark .solaris-notif-header,
+body.alromar-dark .solaris-notif-footer {
+  background: #1a2535;
+  border-color: #2d3748 !important;
+  color: #f1f5f9;
+}
+
+/* Dark tabs */
+body.alromar-dark .solaris-tabs {
+  border-bottom-color: #2d3748;
+}
+
+body.alromar-dark .solaris-tab {
+  color: #94a3b8;
+}
+
+body.alromar-dark .solaris-tab.active {
+  color: #38A169;
+  border-bottom-color: #38A169;
+}
+
+/* Dark content wrapper */
+body.alromar-dark .content {
+  background: transparent;
+}
+
+/* Dark info items */
+body.alromar-dark .solaris-info-value {
+  color: #f1f5f9 !important;
+}
+
+/* ==========================================================================
+   PAGE DE CONNEXION — LOGIN
+   ========================================================================== */
+
+/* Reset body pour la page login */
+body.login-page {
+  background: linear-gradient(135deg, #0f1f1a 0%, #176B5B 50%, #0f2d24 100%) !important;
+  min-height: 100vh;
+}
+
+/* Animation d'apparition pour la carte login */
+@keyframes login-card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.login-card-animate {
+  animation: login-card-appear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

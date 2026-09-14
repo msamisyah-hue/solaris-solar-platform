@@ -15,3 +15,8 @@ Thumbs.db
 # Build outputs
 build/
 dist/
+
+# Environment variables - DO NOT COMMIT
+.env
+*/.env
+**/.env

@@ -19,7 +19,7 @@ class Surface_temp_chart extends React.Component {
       datasets: [
         {
           type: "line",
-          label: "Solar cell Surface Temperature",
+          label: "Température Surface Panneau (°C)",
           backgroundColor: "rgba(0, 0, 0, 0)",
           borderColor: this.props.theme.palette.primary.main,
           pointBackgroundColor: this.props.theme.palette.secondary.main,
@@ -110,14 +110,9 @@ class Surface_temp_chart extends React.Component {
     .then( solar_info => {
       if(solar_info){
         let _temperature = solar_info.temperature.toFixed(2);
-        console.log(solar_info)
         const oldBtcDataSet = this.state.lineChartData.datasets[0];
         const newBtcDataSet = { ...oldBtcDataSet };
         newBtcDataSet.data.push(_temperature);
-
-        console.log("!-----------------!")
-        console.log(newBtcDataSet.data)
-        console.log("!-----------------!")
 
         const newChartData = {
           ...this.state.lineChartData,

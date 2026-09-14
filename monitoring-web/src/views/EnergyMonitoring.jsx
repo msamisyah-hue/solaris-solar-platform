@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { AppContext } from "../AppContext";
 
 import Surface_temp_chart from "components/Chart/Surface_temp_chart";
 import Controller_output from "components/Controller_output.js";
@@ -37,6 +38,7 @@ function LiveMetricCard({ label, value, unit, subLabel, subValue, icon, colorCla
 }
 
 class EnergyMonitoring extends Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = { live: null, liveSurface: null, lastUpdated: null, error: false };
@@ -83,6 +85,7 @@ class EnergyMonitoring extends Component {
 
   render() {
     const { live, liveSurface, lastUpdated, error } = this.state;
+    const { convertTemp, getTempUnit } = this.context;
     const solarVoltage = this.fmt(live ? live.solar_voltage : null);
     const solarCurrent = this.fmt(live ? live.solar_current : null);
     const solarPower   = this.calcPower(live ? live.solar_voltage : null, live ? live.solar_current : null);
@@ -90,7 +93,9 @@ class EnergyMonitoring extends Component {
     const battCurrent  = this.fmt(live ? live.battery_current : null);
     const battState    = live ? live.battery_state : "—";
     const yieldKwh     = this.fmt(live ? live.yield_kwh : null, 2);
-    const temperature  = this.fmt(liveSurface ? liveSurface.temperature : null, 1);
+    const tempRaw      = liveSurface ? liveSurface.temperature : null;
+    const temperature  = convertTemp(tempRaw);
+    const tempUnit     = getTempUnit();
     const humidity     = this.fmt(liveSurface ? liveSurface.humidity : null, 0);
 
     return (
@@ -169,7 +174,7 @@ class EnergyMonitoring extends Component {
               </div>
             </Col>
             <Col md={3} sm={6}>
-              <LiveMetricCard label="Température Panneau" value={temperature} unit="°C" icon="fa fa-thermometer-half" colorClass="solaris-kpi-icon-slate" barClass="solaris-kpi-bar-orange" subLabel="Humidité" subValue={`${humidity}%`} pulse />
+              <LiveMetricCard label="Température Panneau" value={temperature} unit={tempUnit} icon="fa fa-thermometer-half" colorClass="solaris-kpi-icon-slate" barClass="solaris-kpi-bar-orange" subLabel="Humidité" subValue={`${humidity}%`} pulse />
             </Col>
           </Row>
         </Grid>
@@ -253,7 +258,7 @@ class EnergyMonitoring extends Component {
                     { metric: "Courant Batterie",   value: battCurrent,  unit: "A",   source: "Contrôleur",      ok: parseFloat(battCurrent) > 0 },
                     { metric: "État Batterie",      value: battState,    unit: "—",   source: "Contrôleur",      ok: battState !== "—" },
                     { metric: "Production Cumul.",  value: yieldKwh,     unit: "kWh", source: "Contrôleur",      ok: true },
-                    { metric: "Temp. Panneau",      value: temperature,  unit: "°C",  source: "Capteur Surface", ok: parseFloat(temperature) < 65 },
+                    { metric: "Température Panneau",  value: temperature,  unit: tempUnit,  source: "Capteur Surface", ok: parseFloat(tempRaw) < 65 },
                     { metric: "Humidité",           value: humidity,     unit: "%",   source: "Capteur Surface", ok: true }
                   ].map((row, i) => (
                     <tr key={i}>
